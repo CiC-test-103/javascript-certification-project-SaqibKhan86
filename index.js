@@ -47,7 +47,10 @@ async function handleCommand(command) {
         console.log('Adding student...')
         const [name, year, email, specialization] = args
         // --------> WRITE YOUR CODE BELOW
-
+        let newStudent = new Student(name, year, email, specialization)
+        await studentManagementSystem.addStudent(newStudent)
+        console.log("Finished adding student", studentManagementSystem, newStudent.getString())
+ 
         // --------> WRITE YOUR CODE ABOVE
         break;
 
@@ -62,7 +65,10 @@ async function handleCommand(command) {
        */
       console.log('Removing student...')
       // --------> WRITE YOUR CODE BELOW
-      
+      const [removeEmail] = args
+      await studentManagementSystem.removeStudent(removeEmail)
+      console.log(studentManagementSystem)
+ 
       // --------> WRITE YOUR CODE ABOVE
       break;
 
@@ -75,7 +81,9 @@ async function handleCommand(command) {
        */
       console.log('Displaying students...')
       // --------> WRITE YOUR CODE BELOW
-
+      let displayNames = await studentManagementSystem.displayStudents()
+      console.log(displayNames)
+ 
       // --------> WRITE YOUR CODE ABOVE
       break;
 
@@ -91,7 +99,10 @@ async function handleCommand(command) {
        */
       console.log('Finding student...')
       // --------> WRITE YOUR CODE BELOW
-      
+      const [findEmail] = args
+      let foundStudent = await studentManagementSystem.findStudent(findEmail)
+      console.log(foundStudent.getString())
+
       // --------> WRITE YOUR CODE ABOVE
       break;
 
@@ -106,7 +117,9 @@ async function handleCommand(command) {
        */
       console.log('Saving data...')
       // --------> WRITE YOUR CODE BELOW
-
+      const [fileName] = args;
+      await studentManagementSystem.saveToJson(fileName)
+ 
       // --------> WRITE YOUR CODE ABOVE
 
     case "load":
@@ -120,7 +133,10 @@ async function handleCommand(command) {
        */
       console.log('Loading data...')
       // --------> WRITE YOUR CODE BELOW
-
+      const [loadedFile] = args
+      await studentManagementSystem.loadFromJSON(loadedFile)
+      console.log(studentManagementSystem)
+ 
       // --------> WRITE YOUR CODE ABOVE
       break;
 
@@ -134,7 +150,9 @@ async function handleCommand(command) {
        */
       console.log('Clearing data...')
       // --------> WRITE YOUR CODE BELOW
-
+      await studentManagementSystem.clearStudents()
+      console.log(studentManagementSystem)
+ 
       // --------> WRITE YOUR CODE ABOVE
       break;
 
