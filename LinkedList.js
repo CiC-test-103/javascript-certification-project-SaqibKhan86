@@ -56,7 +56,7 @@ class LinkedList {
     let node = new Node(newStudent);
     let current;
  
-     if (!this.head) {
+     if (!this.head) {  //length === 0 
       this.head = node;
       this.tail = node;
     } else {
@@ -83,7 +83,7 @@ class LinkedList {
    */
   removeStudent(email) {
     // TODO
-    if (!this.head){
+  /*  if (!this.head){
       return;
       
     } else {
@@ -109,7 +109,36 @@ class LinkedList {
       }
       this.length--;
     } 
+ }
+*/
+    if (this.length === 1 && current.data.getEmail() === email){
+    this.clearStudents();
+    } else () => {
+    return "email not found"
+    }
+
+
+    if (current.data.getEmail() === email) {
+    this.head = current.next;
+    this.length--;
+    } else {
+    while (current.data.getEmail() !== email && current.next){
+        previous = current;
+        current = current.next;
+    }
+    if (!current.next && current.data.getEmail() === email) {
+        this.tail = previous;
+        previous.next = null;
+        this.length--;
+    }else if (current.data.getEmail() === email){
+        previous.next = current.next;
+        this.length--;
+    }
+    }
+
+
   }
+
 
   /**
    * REQUIRES:  email (String)
@@ -235,10 +264,15 @@ class LinkedList {
       let linkedList = [];
 
       while(current){
-
+/*
         linkedList.push(current.data.getString());
         current = current.next;
       }
+*/
+        let student = current.data
+        linkedList.push([student.getName(), student.getYear(), student.getEmail(), student.getSpecialization()])
+        current = current.next;
+        }
 
       await fs.writeFile(fileName, JSON.stringify(linkedList), 'utf8', (err) => {
         if (err) {
@@ -259,7 +293,7 @@ class LinkedList {
   async loadFromJSON(fileName) {
     // TODO
     
-    const fs = require('fs/promises');
+  /*  const fs = require('fs/promises');
 
     let linkedList = await fs.readFile(fileName, 'utf8')
  
@@ -285,6 +319,45 @@ class LinkedList {
     })
   }
  
+}
+*/
+const fs = require('fs/promises');
+
+
+   // read the file into this function
+   let linkedList = await fs.readFile(fileName, 'utf8')
+
+
+   // parse the JSON loaded from the file
+   let readLinkedList = JSON.parse(linkedList)
+   // readLinkedList = [
+   //   [ 'nazish', '2', 'naz', 'cs' ],
+   //   [ 'anis', '3', 'ark', 'math' ],
+   //   [ 'saqib', '1', 'qibbs', 'science' ]
+   // ]
+
+
+   // create the array that will hold the students after we create them from the fields
+   let createdStudentArray = []
+
+
+   // loop over the JSON parsed linked list: will be an array with 1 long string for each student
+   readLinkedList.forEach((student) => {
+     // create each student from the data
+     createdStudentArray.push(new Student(...student))
+     // createdStudentArray = [ Student {}, Student {}, Student {} ]
+   });
+
+
+   // clear the old linked list
+   this.clearStudents()
+
+
+   // iterate over each student and use your add student function to create a new linked list
+   createdStudentArray.forEach((student) => {
+     this.addStudent(student)
+   })
+ }
 }
 
 module.exports = { LinkedList }
