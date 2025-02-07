@@ -110,7 +110,9 @@ class LinkedList {
       this.length--;
     } 
  }
-*/
+*/  let current = this.head;
+    let previous;
+    
     if (this.length === 1 && current.data.getEmail() === email){
     this.clearStudents();
     } else () => {
@@ -122,20 +124,19 @@ class LinkedList {
     this.head = current.next;
     this.length--;
     } else {
-    while (current.data.getEmail() !== email && current.next){
-        previous = current;
-        current = current.next;
+      while (current.data.getEmail() !== email && current.next){
+          previous = current;
+          current = current.next;
+      }
+      if (!current.next && current.data.getEmail() === email) {
+          this.tail = previous;
+          previous.next = null;
+          this.length--;
+      }else if (current.data.getEmail() === email){
+          previous.next = current.next;
+          this.length--;
+      }
     }
-    if (!current.next && current.data.getEmail() === email) {
-        this.tail = previous;
-        previous.next = null;
-        this.length--;
-    }else if (current.data.getEmail() === email){
-        previous.next = current.next;
-        this.length--;
-    }
-    }
-
 
   }
 
